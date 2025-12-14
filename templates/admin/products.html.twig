@@ -1,0 +1,111 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Gestion des produits - Administration{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1 style="font-size: 2.5rem; font-weight: 700; margin-bottom: 2rem;">Gestion des produits</h1>
+        
+        <div class="card" style="margin-bottom: 2rem;">
+            <div class="card-header">
+                <h2 class="card-title">Ajouter un produit</h2>
+            </div>
+            <div class="card-body">
+                <form method="POST" enctype="multipart/form-data">
+                    <input type="hidden" name="action" value="add">
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem;">
+                        <div class="form-group">
+                            <label class="form-label">Nom</label>
+                            <input type="text" name="name" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Catégorie</label>
+                            <select name="category" class="form-control" required>
+                                <option value="protein">Protéine</option>
+                                <option value="merchandise">Marchandise</option>
+                                <option value="supplement">Complément</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Prix (€)</label>
+                            <input type="number" name="price" step="0.01" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Disponible</label>
+                            <select name="available" class="form-control" required>
+                                <option value="1">Oui</option>
+                                <option value="0">Non</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Description</label>
+                        <textarea name="description" class="form-control" rows="3"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Image</label>
+                        <input type="file" name="image" class="form-control" accept="image/*">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Ajouter le produit</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <h2 class="card-title">Liste des produits</h2>
+            </div>
+            <div class="card-body">
+                <div style="overflow-x: auto;">
+                    <table style="width: 100%; border-collapse: collapse;">
+                        <thead>
+                            <tr style="background: #f5f5f5; border-bottom: 2px solid #e0e0e0;">
+                                <th style="padding: 1rem; text-align: left; font-weight: 600;">Image</th>
+                                <th style="padding: 1rem; text-align: left; font-weight: 600;">Nom</th>
+                                <th style="padding: 1rem; text-align: left; font-weight: 600;">Catégorie</th>
+                                <th style="padding: 1rem; text-align: left; font-weight: 600;">Prix</th>
+                                <th style="padding: 1rem; text-align: left; font-weight: 600;">Disponible</th>
+                                <th style="padding: 1rem; text-align: left; font-weight: 600;">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for product in products %}
+                                <tr style="border-bottom: 1px solid #e0e0e0;">
+                                    <td style="padding: 1rem;">
+                                        {% if product.image %}
+                                            <img src="{{ asset('images/' ~ product.image) }}" alt="{{ product.name }}" style="width: 50px; height: 50px; object-fit: cover; border-radius: 4px;">
+                                        {% else %}
+                                            <span style="font-size: 2rem;">📦</span>
+                                        {% endif %}
+                                    </td>
+                                    <td style="padding: 1rem;">{{ product.name }}</td>
+                                    <td style="padding: 1rem;">{{ product.category|capitalize }}</td>
+                                    <td style="padding: 1rem;">{{ product.price }} €</td>
+                                    <td style="padding: 1rem;">
+                                        {% if product.available %}
+                                            <span style="color: green; font-weight: 600;">Oui</span>
+                                        {% else %}
+                                            <span style="color: red; font-weight: 600;">Non</span>
+                                        {% endif %}
+                                    </td>
+                                    <td style="padding: 1rem;">
+                                        <form method="POST" style="display: inline-block;" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce produit ?');">
+                                            <input type="hidden" name="action" value="delete">
+                                            <input type="hidden" name="id" value="{{ product.id }}">
+                                            <button type="submit" class="btn" style="padding: 0.25rem 0.75rem; font-size: 0.875rem; background: #dc3545; color: white; border: none;">Supprimer</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            {% else %}
+                                <tr>
+                                    <td colspan="6" style="text-align: center; color: var(--gray); padding: 2rem;">Aucun produit</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+

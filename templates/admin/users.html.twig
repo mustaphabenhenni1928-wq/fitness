@@ -19,7 +19,6 @@
                                 <th>Email</th>
                                 <th>Rôle</th>
                                 <th>Date d'inscription</th>
-                                <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -27,11 +26,19 @@
                                 <tr>
                                     <td>{{ user.id }}</td>
                                     <td>{{ user.email }}</td>
-                                    <td>{{ user.roles|join(', ') }}</td>
-                                    <td>{{ user.createdAt|date('Y-m-d') }}</td>
                                     <td>
-                                        <a href="#" class="btn btn-outline" style="padding: 0.25rem 0.75rem; font-size: 0.875rem;">Modifier</a>
+                                        <form method="POST" action="{{ path('app_admin_users') }}" style="display: inline-block; margin: 0;">
+                                            <input type="hidden" name="action" value="update_role">
+                                            <input type="hidden" name="id" value="{{ user.id }}">
+                                            <select name="role" class="form-control" style="display: inline-block; width: auto; padding: 0.25rem 0.5rem; font-size: 0.875rem;" onchange="this.form.submit()">
+                                                <option value="ROLE_USER" {% if 'ROLE_USER' in user.roles and 'ROLE_COACH' not in user.roles and 'ROLE_ADMIN' not in user.roles %}selected{% endif %}>Utilisateur</option>
+                                                <option value="ROLE_COACH" {% if 'ROLE_COACH' in user.roles %}selected{% endif %}>Coach</option>
+                                                <option value="ROLE_ADMIN" {% if 'ROLE_ADMIN' in user.roles %}selected{% endif %}>Administrateur</option>
+                                            </select>
+                                        </form>
                                     </td>
+                                    <td>{{ user.createdAt|date('Y-m-d') }}</td>
+                                   
                                 </tr>
                             {% else %}
                                 <tr>

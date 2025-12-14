@@ -84,6 +84,26 @@ class CoachController extends AbstractController
         $this->addFlash('success', 'Réservation refusée.');
         return $this->redirectToRoute('app_coach');
     }
+
+    #[Route('/coach/clients', name: 'app_coach_clients')]
+    public function clients(UserRepository $userRepo): Response
+    {
+        $this->denyAccessUnlessGranted('ROLE_COACH');
+
+        $coach = $this->getUser();
+        
+        // Get all users who have selected this coach
+        $clients = $userRepo->createQueryBuilder('u')
+            ->where('u.coach = :coach')
+            ->setParameter('coach', $coach)
+            ->orderBy('u.createdAt', 'DESC')
+            ->getQuery()
+            ->getResult();
+
+        return $this->render('coach/clients.html.twig', [
+            'clients' => $clients,
+        ]);
+    }
 }
 
 

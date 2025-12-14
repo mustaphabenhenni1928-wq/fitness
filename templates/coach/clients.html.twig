@@ -1,0 +1,81 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mes clients - Health & Fitness{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div style="margin-bottom: 2rem;">
+            <a href="{{ path('app_coach') }}" style="color: var(--primary); text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem;">
+                ← Retour à l'espace coach
+            </a>
+            <h1 style="font-size: 2.5rem; font-weight: 700; margin: 0;">Mes clients</h1>
+            <p style="color: var(--gray); margin-top: 0.5rem;">Liste de tous vos clients</p>
+        </div>
+
+        {% if clients|length == 0 %}
+            <div class="card">
+                <div class="card-body" style="text-align: center; padding: 3rem;">
+                    <p style="color: var(--gray); font-size: 1.1rem;">
+                        Vous n'avez aucun client pour le moment.
+                    </p>
+                    <p style="color: var(--gray); margin-top: 1rem;">
+                        Les utilisateurs peuvent vous sélectionner comme coach dans leur profil.
+                    </p>
+                </div>
+            </div>
+        {% else %}
+            <div class="card">
+                <div class="card-body" style="padding: 0;">
+                    <div style="overflow-x: auto;">
+                        <table style="width: 100%; border-collapse: collapse;">
+                            <thead>
+                                <tr style="background: #f5f5f5; border-bottom: 2px solid #e0e0e0;">
+                                    <th style="padding: 1rem; text-align: left; font-weight: 600;">Email</th>
+                                    <th style="padding: 1rem; text-align: left; font-weight: 600;">Âge</th>
+                                    <th style="padding: 1rem; text-align: left; font-weight: 600;">Taille</th>
+                                    <th style="padding: 1rem; text-align: left; font-weight: 600;">Poids</th>
+                                    <th style="padding: 1rem; text-align: left; font-weight: 600;">Objectif</th>
+                                    <th style="padding: 1rem; text-align: left; font-weight: 600;">Inscrit le</th>
+                                    <th style="padding: 1rem; text-align: center; font-weight: 600;">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for client in clients %}
+                                    <tr style="border-bottom: 1px solid #e0e0e0;">
+                                        <td style="padding: 1rem;">
+                                            <div style="display: flex; align-items: center; gap: 0.75rem;">
+                                                <div style="width: 40px; height: 40px; border-radius: 50%; background: var(--primary); color: white; display: flex; align-items: center; justify-content: center; font-weight: bold;">
+                                                    {{ client.email|first|upper }}
+                                                </div>
+                                                <span>{{ client.email }}</span>
+                                            </div>
+                                        </td>
+                                        <td style="padding: 1rem;">{{ client.age ?? '-' }}</td>
+                                        <td style="padding: 1rem;">{{ client.height ? client.height ~ ' cm' : '-' }}</td>
+                                        <td style="padding: 1rem;">{{ client.weight ? client.weight ~ ' kg' : '-' }}</td>
+                                        <td style="padding: 1rem;">{{ client.goal ?? '-' }}</td>
+                                        <td style="padding: 1rem;">{{ client.createdAt|date('d/m/Y') }}</td>
+                                        <td style="padding: 1rem; text-align: center;">
+                                            <a href="{{ path('app_message_conversation', {id: client.id}) }}" 
+                                               class="btn btn-primary" 
+                                               style="padding: 0.5rem 1rem; font-size: 0.9rem;">
+                                                Message
+                                            </a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div style="margin-top: 1.5rem; padding: 1rem; background: #f5f5f5; border-radius: 8px;">
+                <p style="margin: 0; color: var(--gray);">
+                    <strong>Total:</strong> {{ clients|length }} client{{ clients|length > 1 ? 's' : '' }}
+                </p>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}
+

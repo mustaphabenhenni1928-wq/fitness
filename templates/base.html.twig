@@ -5,6 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>{% block title %}Health & Fitness Platform{% endblock %}</title>
         <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>💪</text></svg>">
+        <link rel="stylesheet" href="{{ asset('assets/styles/app.css') }}">
         {% block stylesheets %}
         {% endblock %}
         {% block javascripts %}
@@ -13,7 +14,7 @@
     </head>
     <body>
         <nav class="navbar">
-            <div class="container">
+            <div class="containerr">
                 <div class="nav-brand">
                     <a href="{{ path('app_home') }}">
                         <span class="logo-icon">💪</span>
@@ -32,6 +33,11 @@
                         <li><a href="{{ path('app_workouts') }}">Entraînements</a></li>
                         <li><a href="{{ path('app_nutrition') }}">Nutrition</a></li>
                         <li><a href="{{ path('app_statistics') }}">Statistiques</a></li>
+                        {% if not is_granted('ROLE_ADMIN') %}
+                            <li><a href="{{ path('app_products') }}">Produits</a></li>
+                            <li><a href="{{ path('app_orders') }}">Mes commandes</a></li>
+                        {% endif %}
+                        <li><a href="{{ path('app_messages') }}">Messagerie</a></li>
                         {% if is_granted('ROLE_ADMIN') %}
                             <li><a href="{{ path('app_admin') }}">Administration</a></li>
                         {% endif %}
@@ -41,7 +47,7 @@
                         <li class="nav-user">
                             <a href="{{ path('app_profile') }}" class="user-link">
                                 <span class="user-avatar">{% if app.user and app.user.email %}{{ app.user.email|first|upper }}{% else %}U{% endif %}</span>
-                                <span>{% if app.user and app.user.email %}{{ app.user.email }}{% else %}Utilisateur{% endif %}</span>
+                                
                             </a>
                         </li>
                         <li><a href="{{ path('app_logout') }}" class="btn-logout">Déconnexion</a></li>

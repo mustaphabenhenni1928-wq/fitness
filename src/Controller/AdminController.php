@@ -4,11 +4,13 @@ namespace App\Controller;
 
 use App\Entity\Exercise;
 use App\Entity\Food;
+use App\Entity\Product;
 use App\Entity\User;
 use App\Repository\BookingRepository;
 use App\Repository\ExerciseRepository;
 use App\Repository\FoodRepository;
 use App\Repository\OrderRepository;
+use App\Repository\ProductRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -311,6 +313,105 @@ class AdminController extends AbstractController
 
         return $this->render('admin/orders.html.twig', [
             'orders' => $orders,
+        ]);
+    }
+
+    #[Route('/admin/products', name: 'app_admin_products')]
+    public function products(
+        ProductRepository $productRepo,
+        Request $request,
+        EntityManagerInterface $em,
+        SluggerInterface $slugger
+    ): Response {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+
+        if ($request->isMethod('POST') && $request->request->get('action') === 'add') {
+            $product = new Product();
+            $product->setName($request->request->get('name'));
+            $product->setDescription($request->request->get('description'));
+            $product->setPrice($request->request->get('price'));
+            $product->setCategory($request->request->get('category'));
+            $product->setAvailable($request->request->get('available') === '1');
+
+            /** @var UploadedFile $imageFile */
+            $imageFile = $request->files->get('image');
+            if ($imageFile) {
+                $safeName = $slugger->slug(pathinfo($imageFile->getClientOriginalName(), PATHINFO_FILENAME));
+                $extension = pathinfo($imageFile->getClientOriginalName(), PATHINFO_EXTENSION);
+                $imageFilename = $safeName.'-'.uniqid().'.'.$extension;
+
+                $imageFile->move(
+                    $this->getParameter('kernel.project_dir') . '/public/images',
+                    $imageFilename
+                );
+                $product->setImage($imageFilename);
+            }
+
+            $em->persist($product);
+            $em->flush();
+
+            $this->addFlash('success', 'Produit ajouté avec succès !');
+            return $this->redirectToRoute('app_admin_products');
+        }
+
+        if ($request->isMethod('POST') && $request->request->get('action') === 'edit') {
+            $id = $request->request->get('id');
+            $product = $productRepo->find($id);
+            if ($product) {
+                $product->setName($request->request->get('name'));
+                $product->setDescription($request->request->get('description'));
+                $product->setPrice($request->request->get('price'));
+                $product->setCategory($request->request->get('category'));
+                $product->setAvailable($request->request->get('available') === '1');
+
+                /** @var UploadedFile $imageFile */
+                $imageFile = $request->files->get('image');
+                if ($imageFile) {
+                    $safeName = $slugger->slug(pathinfo($imageFile->getClientOriginalName(), PATHINFO_FILENAME));
+                    $extension = pathinfo($imageFile->getClientOriginalName(), PATHINFO_EXTENSION);
+                    $imageFilename = $safeName.'-'.uniqid().'.'.$extension;
+
+                    if ($product->getImage()) {
+                        $oldImagePath = $this->getParameter('kernel.project_dir') . '/public/images/' . $product->getImage();
+                        if (file_exists($oldImagePath)) {
+                            unlink($oldImagePath);
+                        }
+                    }
+
+                    $imageFile->move(
+                        $this->getParameter('kernel.project_dir') . '/public/images',
+                        $imageFilename
+                    );
+                    $product->setImage($imageFilename);
+                }
+
+                $em->flush();
+                $this->addFlash('success', 'Produit modifié avec succès !');
+            }
+            return $this->redirectToRoute('app_admin_products');
+        }
+
+        if ($request->isMethod('POST') && $request->request->get('action') === 'delete') {
+            $id = $request->request->get('id');
+            $product = $productRepo->find($id);
+            if ($product) {
+                if ($product->getImage()) {
+                    $imagePath = $this->getParameter('kernel.project_dir') . '/public/images/' . $product->getImage();
+                    if (file_exists($imagePath)) {
+                        unlink($imagePath);
+                    }
+                }
+                $em->remove($product);
+                $em->flush();
+                $this->addFlash('success', 'Produit supprimé avec succès !');
+            }
+            return $this->redirectToRoute('app_admin_products');
+        }
+
+        $products = $productRepo->findAll();
+
+        return $this->render('admin/products.html.twig', [
+            'products' => $products,
         ]);
     }
 

@@ -30,10 +30,35 @@
                                     <td>{{ order.productName }}</td>
                                     <td>{{ order.quantity }}</td>
                                     <td>{{ order.price }} €</td>
-                                    <td>{{ order.createdAt|date('Y-m-d') }}</td>
-                                    <td><span style="color: var(--success-color);">{{ order.status }}</span></td>
+                                    <td>{{ order.createdAt|date('Y-m-d H:i') }}</td>
                                     <td>
-                                        <a href="#" class="btn btn-outline" style="padding: 0.25rem 0.75rem; font-size: 0.875rem;">Voir</a>
+                                        {% if order.status == 'pending' %}
+                                            <span style="color: orange; font-weight: 600;">En attente</span>
+                                        {% elseif order.status == 'accepted' %}
+                                            <span style="color: green; font-weight: 600;">Acceptée</span>
+                                        {% elseif order.status == 'refused' %}
+                                            <span style="color: red; font-weight: 600;">Refusée</span>
+                                        {% else %}
+                                            <span>{{ order.status }}</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if order.status == 'pending' %}
+                                            <form method="POST" action="{{ path('app_admin_orders') }}" style="display: inline-block;">
+                                                <input type="hidden" name="action" value="update_status">
+                                                <input type="hidden" name="id" value="{{ order.id }}">
+                                                <input type="hidden" name="status" value="accepted">
+                                                <button type="submit" class="btn btn-primary" style="padding: 0.25rem 0.75rem; font-size: 0.875rem; margin-right: 0.5rem;">Accepter</button>
+                                            </form>
+                                            <form method="POST" action="{{ path('app_admin_orders') }}" style="display: inline-block;">
+                                                <input type="hidden" name="action" value="update_status">
+                                                <input type="hidden" name="id" value="{{ order.id }}">
+                                                <input type="hidden" name="status" value="refused">
+                                                <button type="submit" class="btn" style="padding: 0.25rem 0.75rem; font-size: 0.875rem; background: #dc3545; color: white; border: none;">Refuser</button>
+                                            </form>
+                                        {% else %}
+                                            <span style="color: var(--gray); font-size: 0.875rem;">Traité</span>
+                                        {% endif %}
                                     </td>
                                 </tr>
                             {% else %}

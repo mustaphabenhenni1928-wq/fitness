@@ -1,0 +1,74 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Messagerie - Health & Fitness{% endblock %}
+
+{% block body %}
+    <div class="container" style="max-width: 1000px;">
+        <h1 style="font-size: 2.5rem; font-weight: 700; margin-bottom: 2rem;">Messagerie</h1>
+
+        {% if conversations|length == 0 %}
+            <div class="card">
+                <div class="card-body" style="text-align: center; padding: 3rem;">
+                    <p style="color: var(--gray); font-size: 1.1rem; margin-bottom: 1rem;">
+                        Vous n'avez aucune conversation pour le moment.
+                    </p>
+                    {% if not app.user.coach %}
+                        <p style="color: var(--gray);">
+                            Sélectionnez un coach dans votre <a href="{{ path('app_profile') }}">profil</a> pour commencer à communiquer.
+                        </p>
+                    {% endif %}
+                </div>
+            </div>
+        {% else %}
+            <div class="card">
+                <div class="card-body" style="padding: 0;">
+                    <div style="display: grid; gap: 0;">
+                        {% for conversation in conversations %}
+                            <a href="{{ path('app_message_conversation', {id: conversation.user.id}) }}" 
+                               style="display: block; padding: 1.5rem; border-bottom: 1px solid #e0e0e0; text-decoration: none; color: inherit; transition: background-color 0.2s;"
+                               onmouseover="this.style.backgroundColor='#f5f5f5'" 
+                               onmouseout="this.style.backgroundColor='transparent'">
+                                <div style="display: flex; justify-content: space-between; align-items: center;">
+                                    <div style="flex: 1;">
+                                        <div style="display: flex; align-items: center; gap: 1rem;">
+                                            <div style="width: 50px; height: 50px; border-radius: 50%; background: var(--primary); color: white; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 1.2rem;">
+                                                {{ conversation.user.email|first|upper }}
+                                            </div>
+                                            <div>
+                                                <h3 style="margin: 0; font-size: 1.1rem; font-weight: 600;">
+                                                    {{ conversation.user.email }}
+                                                </h3>
+                                                {% if conversation.lastMessage %}
+                                                    <p style="margin: 0.5rem 0 0 0; color: var(--gray); font-size: 0.9rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 500px;">
+                                                        {{ conversation.lastMessage.content|slice(0, 60) }}{% if conversation.lastMessage.content|length > 60 %}...{% endif %}
+                                                    </p>
+                                                {% else %}
+                                                    <p style="margin: 0.5rem 0 0 0; color: var(--gray); font-size: 0.9rem;">
+                                                        Aucun message
+                                                    </p>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div style="text-align: right;">
+                                        {% if conversation.lastMessage %}
+                                            <div style="color: var(--gray); font-size: 0.85rem; margin-bottom: 0.5rem;">
+                                                {{ conversation.lastMessage.createdAt|date('d/m/Y H:i') }}
+                                            </div>
+                                        {% endif %}
+                                        {% if conversation.unreadCount > 0 %}
+                                            <span style="background: var(--primary); color: white; padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.85rem; font-weight: 600;">
+                                                {{ conversation.unreadCount }}
+                                            </span>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </a>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}
+

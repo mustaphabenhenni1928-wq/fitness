@@ -1,0 +1,67 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Produits - Health & Fitness{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1 style="font-size: 2.5rem; font-weight: 700; margin-bottom: 2rem;">Produits</h1>
+
+        <div style="margin-bottom: 2rem;">
+            <div style="display: flex; gap: 1rem; flex-wrap: wrap; align-items: center;">
+                <a href="{{ path('app_products') }}" 
+                   class="btn {{ selectedCategory is null ? 'btn-primary' : 'btn-outline' }}" 
+                   style="padding: 0.5rem 1rem;">
+                    Tous
+                </a>
+                {% for cat in categories %}
+                    <a href="{{ path('app_products', {category: cat}) }}" 
+                       class="btn {{ selectedCategory == cat ? 'btn-primary' : 'btn-outline' }}" 
+                       style="padding: 0.5rem 1rem;">
+                        {{ cat|capitalize }}
+                    </a>
+                {% endfor %}
+            </div>
+        </div>
+
+        {% if products|length == 0 %}
+            <div class="card">
+                <div class="card-body" style="text-align: center; padding: 3rem;">
+                    <p style="color: var(--gray); font-size: 1.1rem;">
+                        Aucun produit disponible pour le moment.
+                    </p>
+                </div>
+            </div>
+        {% else %}
+            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 2rem;">
+                {% for product in products %}
+                    <div class="card">
+                        {% if product.image %}
+                            <img src="{{ asset('images/' ~ product.image) }}" 
+                                 alt="{{ product.name }}" 
+                                 style="width: 100%; height: 200px; object-fit: cover; border-radius: 8px 8px 0 0;">
+                        {% else %}
+                            <div style="width: 100%; height: 200px; background: #f0f0f0; display: flex; align-items: center; justify-content: center; border-radius: 8px 8px 0 0;">
+                                <span style="font-size: 3rem;">📦</span>
+                            </div>
+                        {% endif %}
+                        <div class="card-body">
+                            <h3 style="font-size: 1.5rem; font-weight: 600; margin-bottom: 0.5rem;">{{ product.name }}</h3>
+                            <p style="color: var(--gray); margin-bottom: 1rem; font-size: 0.9rem; text-transform: uppercase;">{{ product.category }}</p>
+                            {% if product.description %}
+                                <p style="color: var(--gray); margin-bottom: 1rem; font-size: 0.9rem;">{{ product.description|slice(0, 100) }}{% if product.description|length > 100 %}...{% endif %}</p>
+                            {% endif %}
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1.5rem;">
+                                <span style="font-size: 1.5rem; font-weight: 700; color: var(--primary);">{{ product.price }} €</span>
+                                <form method="POST" action="{{ path('app_product_order', {id: product.id}) }}" style="display: flex; gap: 0.5rem; align-items: center;">
+                                    <input type="number" name="quantity" value="1" min="1" style="width: 60px; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px;">
+                                    <button type="submit" class="btn btn-primary">Commander</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}
+

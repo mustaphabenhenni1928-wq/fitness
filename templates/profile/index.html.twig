@@ -18,26 +18,69 @@
                     </div>
                     <div class="form-group">
                         <label class="form-label">Âge</label>
-                        <input name="age" type="number" class="form-control" placeholder="Entrez votre âge">
+                        <input name="age" type="number" class="form-control" placeholder="Entrez votre âge" value="{{ user.age ?? '' }}">
                     </div>
                     <div class="form-group">
                         <label class="form-label">Taille (cm)</label>
-                        <input name="height" type="number" class="form-control" placeholder="Entrez votre taille">
+                        <input name="height" type="number" class="form-control" placeholder="Entrez votre taille" value="{{ user.height ?? '' }}">
                     </div>
                     <div class="form-group">
                         <label class="form-label">Poids actuel (kg)</label>
-                        <input name="weight" type="number" class="form-control" placeholder="Entrez votre poids">
+                        <input name="weight" type="number" step="0.1" class="form-control" placeholder="Entrez votre poids" value="{{ user.weight ?? '' }}">
                     </div>
                     <div class="form-group">
                         <label class="form-label">Objectif</label>
                         <select name="goal" class="form-control">
-                            <option value="Perte de poids">Perte de poids</option>
-                            <option value="Prise de masse">Prise de masse</option>
-                            <option value="Maintien">Maintien</option>
-                            <option value="Endurance">Endurance</option>
+                            <option value="Perte de poids" {% if user.goal == 'Perte de poids' %}selected{% endif %}>Perte de poids</option>
+                            <option value="Prise de masse" {% if user.goal == 'Prise de masse' %}selected{% endif %}>Prise de masse</option>
+                            <option value="Maintien" {% if user.goal == 'Maintien' %}selected{% endif %}>Maintien</option>
+                            <option value="Endurance" {% if user.goal == 'Endurance' %}selected{% endif %}>Endurance</option>
                         </select>
                     </div>
+                    {% if coaches is defined and coaches|length > 0 %}
+                    <div class="form-group">
+                        <label class="form-label">Mon coach</label>
+                        <select name="coach" class="form-control">
+                            <option value="">Aucun coach</option>
+                            {% for coach in coaches %}
+                                <option value="{{ coach.id }}" {% if user.coach and user.coach.id == coach.id %}selected{% endif %}>
+                                    {{ coach.email }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                        <small style="color: var(--gray); margin-top: 0.5rem; display: block;">
+                            Sélectionnez un coach pour pouvoir communiquer avec lui via la messagerie.
+                        </small>
+                    </div>
+                    {% endif %}
                     <button type="submit" class="btn btn-primary">Enregistrer les modifications</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="card" style="margin-top: 2rem;">
+            <div class="card-header">
+                <h2 class="card-title">Changer le mot de passe</h2>
+            </div>
+            <div class="card-body">
+                <form method="POST">
+                    <input type="hidden" name="action" value="change_password">
+                    <div class="form-group">
+                        <label class="form-label">Mot de passe actuel</label>
+                        <input name="current_password" type="password" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Nouveau mot de passe</label>
+                        <input name="new_password" type="password" class="form-control" required minlength="8">
+                        <small style="color: var(--gray); margin-top: 0.5rem; display: block;">
+                            Le mot de passe doit contenir au moins 8 caractères.
+                        </small>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Confirmer le nouveau mot de passe</label>
+                        <input name="confirm_password" type="password" class="form-control" required minlength="8">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Changer le mot de passe</button>
                 </form>
             </div>
         </div>
