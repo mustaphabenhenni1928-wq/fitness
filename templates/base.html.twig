@@ -1,17 +1,107 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
     <head>
         <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>{% block title %}Health & Fitness Platform{% endblock %}</title>
+        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>💪</text></svg>">
         {% block stylesheets %}
         {% endblock %}
-
         {% block javascripts %}
             {% block importmap %}{{ importmap('app') }}{% endblock %}
         {% endblock %}
     </head>
     <body>
-        {% block body %}{% endblock %}
+        <nav class="navbar">
+            <div class="container">
+                <div class="nav-brand">
+                    <a href="{{ path('app_home') }}">
+                        <span class="logo-icon">💪</span>
+                        <span class="logo-text">Health & Fitness</span>
+                    </a>
+                </div>
+                <button class="mobile-menu-toggle" aria-label="Toggle menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+                <ul class="nav-menu">
+                    <li><a href="{{ path('app_home') }}">Accueil</a></li>
+                    {% if app.user %}
+                        <li><a href="{{ path('app_dashboard') }}">Tableau de bord</a></li>
+                        <li><a href="{{ path('app_workouts') }}">Entraînements</a></li>
+                        <li><a href="{{ path('app_nutrition') }}">Nutrition</a></li>
+                        <li><a href="{{ path('app_statistics') }}">Statistiques</a></li>
+                        {% if is_granted('ROLE_ADMIN') %}
+                            <li><a href="{{ path('app_admin') }}">Administration</a></li>
+                        {% endif %}
+                        {% if is_granted('ROLE_COACH') %}
+                            <li><a href="{{ path('app_coach') }}">Espace Coach</a></li>
+                        {% endif %}
+                        <li class="nav-user">
+                            <a href="{{ path('app_profile') }}" class="user-link">
+                                <span class="user-avatar">{% if app.user and app.user.email %}{{ app.user.email|first|upper }}{% else %}U{% endif %}</span>
+                                <span>{% if app.user and app.user.email %}{{ app.user.email }}{% else %}Utilisateur{% endif %}</span>
+                            </a>
+                        </li>
+                        <li><a href="{{ path('app_logout') }}" class="btn-logout">Déconnexion</a></li>
+                    {% else %}
+                        <li><a href="{{ path('app_login') }}" class="btn-login">Connexion</a></li>
+                        <li><a href="{{ path('app_register') }}" class="btn-register">Inscription</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+        </nav>
+
+        <main class="main-content">
+            {% for message in app.flashes('success') %}
+                <div class="alert alert-success">
+                    {{ message }}
+                </div>
+            {% endfor %}
+            {% for message in app.flashes('error') %}
+                <div class="alert alert-error">
+                    {{ message }}
+                </div>
+            {% endfor %}
+            {% for message in app.flashes('warning') %}
+                <div class="alert alert-warning">
+                    {{ message }}
+                </div>
+            {% endfor %}
+            
+            {% block body %}{% endblock %}
+        </main>
+
+        <footer class="footer">
+            <div class="container">
+                <div class="footer-content">
+                    <div class="footer-section">
+                        <h3>Health & Fitness</h3>
+                        <p>Votre plateforme complète pour suivre votre santé et votre condition physique.</p>
+                    </div>
+                    <div class="footer-section">
+                        <h4>Liens rapides</h4>
+                        <ul>
+                            <li><a href="{{ path('app_home') }}">Accueil</a></li>
+                            <li><a href="{{ path('app_workouts') }}">Entraînements</a></li>
+                            <li><a href="{{ path('app_nutrition') }}">Nutrition</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-section">
+                        <h4>Support</h4>
+                        <ul>
+                            <li><a href="{{ path('app_contact') }}">Contact</a></li>
+                            <li><a href="{{ path('app_faq') }}">FAQ</a></li>
+                            <li><a href="{{ path('app_about') }}">À propos</a></li>
+                            <li><a href="{{ path('app_support') }}">Support</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="footer-bottom">
+                    <p>&copy; {{ "now"|date("Y") }} Health & Fitness. Tous droits réservés.</p>
+                </div>
+            </div>
+        </footer>
     </body>
 </html>
