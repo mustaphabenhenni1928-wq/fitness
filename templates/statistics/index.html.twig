@@ -1,0 +1,152 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Statistiques - Health & Fitness{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1 style="font-size: 2.5rem; font-weight: 700; margin-bottom: 2rem;">Mes statistiques</h1>
+        <p style="color: var(--gray); margin-bottom: 3rem;">Visualisez votre progression au fil du temps</p>
+
+        <div class="filters" style="margin-bottom: 2rem;">
+            <div class="filters-grid">
+                <div class="form-group" style="margin-bottom: 0;">
+                    <label class="form-label">Période</label>
+                    <select class="form-control">
+                        <option>7 derniers jours</option>
+                        <option>30 derniers jours</option>
+                        <option>3 derniers mois</option>
+                        <option>6 derniers mois</option>
+                        <option>1 an</option>
+                    </select>
+                </div>
+                <div class="form-group" style="margin-bottom: 0;">
+                    <label class="form-label">Métrique</label>
+                    <select class="form-control">
+                        <option>Poids</option>
+                        <option>IMC</option>
+                        <option>Calories</option>
+                        <option>Entraînements</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="chart-container">
+            <h2 class="chart-title">Évolution du poids (kg)</h2>
+            <div style="height: 300px; display: flex; align-items: center; justify-content: center; background: var(--gray-lighter); border-radius: var(--border-radius);">
+                <p style="color: var(--gray);">Graphique de progression du poids (à intégrer avec Chart.js)</p>
+            </div>
+        </div>
+
+        <div class="chart-container">
+            <h2 class="chart-title">Évolution de l'IMC</h2>
+            <div style="height: 300px; display: flex; align-items: center; justify-content: center; background: var(--gray-lighter); border-radius: var(--border-radius);">
+                <p style="color: var(--gray);">Graphique de progression de l'IMC (à intégrer avec Chart.js)</p>
+            </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-top: 2rem;">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Calories dépensées</h2>
+                </div>
+                <div class="card-body">
+                    <div class="chart-container" style="padding: 0; box-shadow: none; margin: 0;">
+                        <div style="height: 200px; display: flex; align-items: center; justify-content: center; background: var(--gray-lighter); border-radius: var(--border-radius);">
+                            <p style="color: var(--gray); font-size: 0.875rem;">Graphique calories</p>
+                        </div>
+                    </div>
+                    <div style="margin-top: 1rem;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                            <span>Cette semaine</span>
+                            <strong>2,450 kcal</strong>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                            <span>Moyenne quotidienne</span>
+                            <strong>350 kcal</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Fréquence d'entraînement</h2>
+                </div>
+                <div class="card-body">
+                    <div class="chart-container" style="padding: 0; box-shadow: none; margin: 0;">
+                        <div style="height: 200px; display: flex; align-items: center; justify-content: center; background: var(--gray-lighter); border-radius: var(--border-radius);">
+                            <p style="color: var(--gray); font-size: 0.875rem;">Graphique fréquence</p>
+                        </div>
+                    </div>
+                    <div style="margin-top: 1rem;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                            <span>Séances cette semaine</span>
+                            <strong>4</strong>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                            <span>Série actuelle</span>
+                            <strong>2 jours</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card" style="margin-top: 2rem;">
+            <div class="card-header">
+                <h2 class="card-title">Résumé de progression</h2>
+            </div>
+            <div class="card-body">
+                <div class="table-container">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Métrique</th>
+                                <th>Début</th>
+                                <th>Actuel</th>
+                                <th>Objectif</th>
+                                <th>Progression</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Poids (kg)</strong></td>
+                                <td>78</td>
+                                <td>75</td>
+                                <td>70</td>
+                                <td><span style="color: var(--success-color);">-3 kg</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>IMC</strong></td>
+                                <td>25.8</td>
+                                <td>24.2</td>
+                                <td>23.0</td>
+                                <td><span style="color: var(--success-color);">-1.6</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Calories/jour</strong></td>
+                                <td>200</td>
+                                <td>350</td>
+                                <td>500</td>
+                                <td><span style="color: var(--success-color);">+150</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Séances/semaine</strong></td>
+                                <td>2</td>
+                                <td>4</td>
+                                <td>5</td>
+                                <td><span style="color: var(--success-color);">+2</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+
+
+
+

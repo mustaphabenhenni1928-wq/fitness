@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}FAQ - Health & Fitness{% endblock %}
+
+{% block body %}
+    <div class="container" style="max-width: 900px; margin: 3rem auto;">
+        <h1 style="font-size: 2.5rem; font-weight: 700; margin-bottom: 1rem; text-align: center;">Questions fréquentes</h1>
+        <p style="text-align: center; color: var(--gray); margin-bottom: 3rem;">
+            Trouvez rapidement les réponses à vos questions
+        </p>
+
+        <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+            {% for faq in faqs %}
+                <div class="card" style="cursor: pointer;" onclick="toggleFaq({{ loop.index }})">
+                    <div class="card-body">
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <h3 style="font-size: 1.25rem; font-weight: 600; margin: 0;">{{ faq.question }}</h3>
+                            <span class="faq-toggle" id="toggle-{{ loop.index }}" style="font-size: 1.5rem; transition: transform 0.3s;">▼</span>
+                        </div>
+                        <div class="faq-answer" id="answer-{{ loop.index }}" style="display: none; margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--border-color); color: var(--gray);">
+                            {{ faq.answer }}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+        <div class="card" style="margin-top: 3rem; background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)); color: white;">
+            <div class="card-body" style="text-align: center;">
+                <h3 style="margin-bottom: 1rem;">Vous ne trouvez pas votre réponse ?</h3>
+                <p style="margin-bottom: 1.5rem; opacity: 0.9;">Notre équipe est là pour vous aider</p>
+                <a href="{{ path('app_contact') }}" class="btn" style="background: white; color: var(--primary-color);">Nous contacter</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleFaq(index) {
+            const answer = document.getElementById('answer-' + index);
+            const toggle = document.getElementById('toggle-' + index);
+            
+            if (answer.style.display === 'none') {
+                answer.style.display = 'block';
+                toggle.style.transform = 'rotate(180deg)';
+            } else {
+                answer.style.display = 'none';
+                toggle.style.transform = 'rotate(0deg)';
+            }
+        }
+    </script>
+{% endblock %}
+

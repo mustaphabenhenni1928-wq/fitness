@@ -1,0 +1,79 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Vérification de l'email - Health & Fitness{% endblock %}
+
+{% block body %}
+    <div class="container" style="max-width: 500px; margin: 3rem auto;">
+        <div class="card">
+            <div class="card-header">
+                <h1 class="card-title">Vérification de l'email</h1>
+            </div>
+            <div class="card-body">
+                <p style="margin-bottom: 2rem; color: var(--gray); text-align: center;">
+                    Un code de vérification a été envoyé à <strong>{{ email }}</strong>
+                </p>
+                <p style="margin-bottom: 2rem; color: var(--gray); font-size: 0.875rem; text-align: center;">
+                    Veuillez entrer le code reçu par email pour activer votre compte.
+                </p>
+
+                <form method="POST" action="{{ path('app_verify_email') }}">
+                    <input type="hidden" name="email" value="{{ email }}">
+
+                    <div class="form-group">
+                        <label for="code" class="form-label">Code de vérification</label>
+                        <input 
+                            type="text" 
+                            id="code" 
+                            name="code" 
+                            class="form-control" 
+                            required 
+                            autofocus
+                            maxlength="6"
+                            pattern="[0-9]{6}"
+                            placeholder="000000"
+                            style="text-align: center; font-size: 1.5rem; letter-spacing: 0.5rem; font-weight: bold;"
+                        >
+                        <div class="form-help">Entrez le code à 6 chiffres reçu par email</div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">
+                        Vérifier mon email
+                    </button>
+                </form>
+
+                <div style="margin-top: 2rem; padding-top: 2rem; border-top: 1px solid var(--border-color);">
+                    <p style="text-align: center; color: var(--gray); font-size: 0.875rem; margin-bottom: 1rem;">
+                        Vous n'avez pas reçu le code ?
+                    </p>
+                    <form method="POST" action="{{ path('app_verify_email') }}">
+                        <input type="hidden" name="email" value="{{ email }}">
+                        <input type="hidden" name="resend" value="1">
+                        <button type="submit" class="btn btn-outline" style="width: 100%;">
+                            Renvoyer le code
+                        </button>
+                    </form>
+                </div>
+
+                <div style="margin-top: 2rem; text-align: center;">
+                    <a href="{{ path('app_register') }}" style="color: var(--gray); text-decoration: none; font-size: 0.875rem;">
+                        ← Retour à l'inscription
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Auto-focus et formatage du code
+        document.getElementById('code').addEventListener('input', function(e) {
+            // Ne garder que les chiffres
+            this.value = this.value.replace(/[^0-9]/g, '');
+            
+            // Limiter à 6 chiffres
+            if (this.value.length > 6) {
+                this.value = this.value.substring(0, 6);
+            }
+        });
+    </script>
+{% endblock %}
+

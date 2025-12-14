@@ -1,0 +1,61 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Inscription - Health & Fitness{% endblock %}
+
+{% block body %}
+    <div class="container" style="max-width: 600px; margin: 3rem auto;">
+        <div class="card">
+            <div class="card-header">
+                <h1 class="card-title">Créer un compte</h1>
+            </div>
+            <div class="card-body">
+                <form method="post" action="{{ path('app_register') }}">
+                    <div class="form-group">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" id="email" name="email" class="form-control" required autofocus>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password" class="form-label">Mot de passe</label>
+                        <input type="password" id="password" name="password" class="form-control" required minlength="8">
+                        <div class="form-help">Le mot de passe doit contenir au moins 8 caractères</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="confirm_password" class="form-label">Confirmer le mot de passe</label>
+                        <input type="password" id="confirm_password" name="confirm_password" class="form-control" required minlength="8">
+                    </div>
+
+                    <div class="form-group">
+                    <label for="role" class="form-label">Type de compte</label>
+                    <select id="role" name="role" class="form-control" required>
+                        <option value="" disabled selected>-- Sélectionnez un type --</option>
+                        <option value="ROLE_USER">Client</option>
+                        <option value="ROLE_COACH">Coach</option>
+                    </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                            <input type="checkbox" name="agree_terms" required style="width: auto;">
+                            <span>J'accepte les <a href="#" style="color: var(--primary-color);">conditions d'utilisation</a></span>
+                        </label>
+                    </div>
+
+                    <input type="hidden" name="_csrf_token" value="{{ csrf_token('register') }}">
+
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">
+                        S'inscrire
+                    </button>
+                </form>
+            </div>
+            <div class="card-footer text-center">
+                <p style="color: var(--gray);">
+                    Déjà un compte ? 
+                    <a href="{{ path('app_login') }}" style="color: var(--primary-color); text-decoration: none; font-weight: 600;">Se connecter</a>
+                </p>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+

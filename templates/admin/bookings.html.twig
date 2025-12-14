@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Gestion des réservations - Administration{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1 style="font-size: 2.5rem; font-weight: 700; margin-bottom: 2rem;">Gestion des réservations</h1>
+        
+        <div class="card">
+            <div class="card-body">
+                <div class="table-container">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Client</th>
+                                <th>Coach</th>
+                                <th>Date</th>
+                                <th>Heure</th>
+                                <th>Statut</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for booking in bookings %}
+                                <tr>
+                                    <td>{{ booking.id }}</td>
+                                    <td>{{ booking.client.email }}</td>
+                                    <td>{{ booking.coach.email }}</td>
+                                    <td>{{ booking.date|date('Y-m-d') }}</td>
+                                    <td>{{ booking.time|date('H:i') }}</td>
+                                    <td><span style="color: var(--success-color);">{{ booking.status }}</span></td>
+                                    <td>
+                                        <a href="#" class="btn btn-outline" style="padding: 0.25rem 0.75rem; font-size: 0.875rem;">Voir</a>
+                                    </td>
+                                </tr>
+                            {% else %}
+                                <tr>
+                                    <td colspan="7" style="text-align: center; color: var(--gray);">Aucune réservation</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+

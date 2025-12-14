@@ -1,0 +1,148 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Administration - Health & Fitness{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1 style="font-size: 2.5rem; font-weight: 700; margin-bottom: 2rem;">Administration</h1>
+
+        <div class="dashboard-grid" style="margin-bottom: 3rem;">
+            <div class="stat-card">
+                <div class="stat-label">Utilisateurs</div>
+                <div class="stat-value">{{ stats.users }}</div>
+                <div class="stat-label">Total inscrits</div>
+            </div>
+            <div class="stat-card secondary">
+                <div class="stat-label">Exercices</div>
+                <div class="stat-value">{{ stats.exercises }}</div>
+                <div class="stat-label">Dans la base</div>
+            </div>
+            <div class="stat-card warning">
+                <div class="stat-label">Réservations</div>
+                <div class="stat-value">{{ stats.bookings }}</div>
+                <div class="stat-label">Total</div>
+            </div>
+            <div class="stat-card" style="background: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%);">
+                <div class="stat-label">Commandes</div>
+                <div class="stat-value">{{ stats.orders }}</div>
+                <div class="stat-label">Total</div>
+            </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-bottom: 2rem;">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Gestion des utilisateurs</h2>
+                </div>
+                <div class="card-body">
+                    <p style="color: var(--gray); margin-bottom: 1rem;">Gérez les comptes utilisateurs, les rôles et les permissions.</p>
+                </div>
+                <div class="card-footer">
+                    <a href="{{ path('app_admin_users') }}" class="btn btn-primary" style="width: 100%;">Gérer les utilisateurs</a>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Gestion des exercices</h2>
+                </div>
+                <div class="card-body">
+                    <p style="color: var(--gray); margin-bottom: 1rem;">Ajoutez, modifiez ou supprimez des exercices et programmes.</p>
+                </div>
+                <div class="card-footer">
+                    <a href="{{ path('app_admin_exercises') }}" class="btn btn-primary" style="width: 100%;">Gérer les exercices</a>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Gestion des aliments</h2>
+                </div>
+                <div class="card-body">
+                    <p style="color: var(--gray); margin-bottom: 1rem;">Maintenez la base de données nutritionnelle.</p>
+                </div>
+                <div class="card-footer">
+                    <a href="{{ path('app_admin_foods') }}" class="btn btn-primary" style="width: 100%;">Gérer les aliments</a>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Réservations</h2>
+                </div>
+                <div class="card-body">
+                    <p style="color: var(--gray); margin-bottom: 1rem;">Consultez et gérez les réservations de coaching.</p>
+                </div>
+                <div class="card-footer">
+                    <a href="{{ path('app_admin_bookings') }}" class="btn btn-primary" style="width: 100%;">Voir les réservations</a>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Commandes</h2>
+                </div>
+                <div class="card-body">
+                    <p style="color: var(--gray); margin-bottom: 1rem;">Suivez et gérez les commandes de produits.</p>
+                </div>
+                <div class="card-footer">
+                    <a href="{{ path('app_admin_orders') }}" class="btn btn-primary" style="width: 100%;">Voir les commandes</a>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Statistiques</h2>
+                </div>
+                <div class="card-body">
+                    <p style="color: var(--gray); margin-bottom: 1rem;">Visualisez les statistiques globales de la plateforme.</p>
+                </div>
+                <div class="card-footer">
+                    <a href="{{ path('app_admin_stats') }}" class="btn btn-primary" style="width: 100%;">Voir les stats</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <h2 class="card-title">Dernières activités</h2>
+            </div>
+            <div class="card-body">
+                <div class="table-container">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Utilisateur</th>
+                                <th>Action</th>
+                                <th>Détails</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Aujourd'hui 14:30</td>
+                                <td>user@example.com</td>
+                                <td>Nouvelle inscription</td>
+                                <td>Compte créé</td>
+                            </tr>
+                            <tr>
+                                <td>Aujourd'hui 12:15</td>
+                                <td>coach@example.com</td>
+                                <td>Nouveau programme</td>
+                                <td>Programme "Full Body" créé</td>
+                            </tr>
+                            <tr>
+                                <td>Hier 18:45</td>
+                                <td>admin@example.com</td>
+                                <td>Exercice ajouté</td>
+                                <td>"Squats" ajouté au catalogue</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+

@@ -1,0 +1,94 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nutrition - Health & Fitness{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+            <div>
+                <h1 style="font-size: 2.5rem; font-weight: 700; margin-bottom: 0.5rem;">Journal nutritionnel</h1>
+                <p style="color: var(--gray);">Suivez vos repas et votre apport nutritionnel</p>
+            </div>
+            <a href="{{ path('app_nutrition_add') }}" class="btn btn-primary">+ Ajouter un repas</a>
+        </div>
+
+        <div class="dashboard-grid" style="margin-bottom: 2rem;">
+            <div class="stat-card">
+                <div class="stat-label">Calories consommées</div>
+                <div class="stat-value">{{ totalCalories }}</div>
+                <div class="stat-label">Objectif: 2200 kcal</div>
+            </div>
+            <div class="stat-card secondary">
+                <div class="stat-label">Protéines</div>
+                <div class="stat-value">{{ totalProtein }}g</div>
+                <div class="stat-label">Objectif: 150g</div>
+            </div>
+            <div class="stat-card warning">
+                <div class="stat-label">Glucides</div>
+                <div class="stat-value">{{ totalCarbs }}g</div>
+                <div class="stat-label">Objectif: 250g</div>
+            </div>
+            <div class="stat-card" style="background: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%);">
+                <div class="stat-label">Lipides</div>
+                <div class="stat-value">{{ totalFat }}g</div>
+                <div class="stat-label">Objectif: 70g</div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <h2 class="card-title">Repas d'aujourd'hui - {{ today|date("d/m/Y") }}</h2>
+            </div>
+            <div class="card-body">
+                {% if mealsByType|length > 0 %}
+                    {% for mealType, data in mealsByType %}
+                        <div class="meal-card">
+                            <div class="meal-header">
+                                <h3 class="meal-title">
+                                    {% if mealType == 'Petit-déjeuner' %}🍳
+                                    {% elseif mealType == 'Déjeuner' %}🍽️
+                                    {% elseif mealType == 'Collation' %}🍎
+                                    {% elseif mealType == 'Dîner' %}🥗
+                                    {% else %}🍴
+                                    {% endif %}
+                                    {{ mealType }}
+                                </h3>
+                                <span style="font-weight: 600; color: var(--primary-color);">{{ data.totalCalories|round }} kcal</span>
+                            </div>
+                            <ul class="meal-items">
+                                {% for meal in data.meals %}
+                                    <li class="meal-item">
+                                        <span>{{ meal.food.name }} ({{ meal.quantity }}g)</span>
+                                        <span>{{ (meal.food.calories * meal.quantity / 100)|round }} kcal</span>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <p style="text-align: center; color: var(--gray); padding: 2rem;">
+                        Aucun repas enregistré aujourd'hui. <a href="{{ path('app_nutrition_add') }}">Ajouter un repas</a>
+                    </p>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="card" style="margin-top: 2rem;">
+            <div class="card-header">
+                <h2 class="card-title">Suggestions nutritionnelles</h2>
+            </div>
+            <div class="card-body">
+                <div style="padding: 1rem; background: var(--gray-lighter); border-radius: var(--border-radius); margin-bottom: 1rem;">
+                    <strong>💡 Astuce du jour</strong>
+                    <p style="margin-top: 0.5rem; color: var(--gray);">Augmentez votre consommation de protéines en ajoutant des œufs ou du poulet à vos repas pour favoriser la récupération musculaire.</p>
+                </div>
+                <div style="padding: 1rem; background: var(--gray-lighter); border-radius: var(--border-radius);">
+                    <strong>📊 Analyse</strong>
+                    <p style="margin-top: 0.5rem; color: var(--gray);">Vous êtes à 84% de votre objectif calorique. Pensez à ajouter une collation si vous avez prévu un entraînement.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+

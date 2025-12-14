@@ -1,0 +1,71 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Espace Coach - Health & Fitness{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1 style="font-size: 2.5rem; font-weight: 700; margin-bottom: 2rem;">Espace Coach</h1>
+        <p style="color: var(--gray); margin-bottom: 3rem;">Gérez vos programmes et interagissez avec vos clients</p>
+
+        <div class="dashboard-grid" style="margin-bottom: 3rem;">
+            <div class="stat-card">
+                <div class="stat-label">Clients actifs</div>
+                <div class="stat-value">24</div>
+                <div class="stat-label">En suivi</div>
+            </div>
+            <div class="stat-card secondary">
+                <div class="stat-label">Programmes créés</div>
+                <div class="stat-value">18</div>
+                <div class="stat-label">Total</div>
+            </div>
+            <div class="stat-card warning">
+                <div class="stat-label">Messages non lus</div>
+                <div class="stat-value">5</div>
+                <div class="stat-label">À traiter</div>
+            </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Mes programmes</h2>
+                </div>
+                <div class="card-body">
+                    <p style="color: var(--gray); margin-bottom: 1rem;">Créez et gérez vos programmes d'entraînement personnalisés.</p>
+                </div>
+                <div class="card-footer">
+                    <a href="#" class="btn btn-primary" style="width: 100%;">Créer un programme</a>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Mes clients</h2>
+                </div>
+                <div class="card-body">
+                    <p style="color: var(--gray); margin-bottom: 1rem;">Consultez la liste de vos clients et leur progression.</p>
+                </div>
+                <div class="card-footer">
+                    <a href="#" class="btn btn-primary" style="width: 100%;">Voir mes clients</a>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Messagerie</h2>
+                </div>
+                <div class="card-body">
+                    <p style="color: var(--gray); margin-bottom: 1rem;">Communiquez avec vos clients via la messagerie.</p>
+                </div>
+                <div class="card-footer">
+                    <a href="#" class="btn btn-primary" style="width: 100%;">Ouvrir la messagerie</a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+
+
+
+

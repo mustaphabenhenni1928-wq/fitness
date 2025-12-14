@@ -1,0 +1,72 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier un aliment - Health & Fitness{% endblock %}
+
+{% block body %}
+    <div class="container" style="max-width: 800px;">
+        <h1 style="font-size: 2.5rem; font-weight: 700; margin-bottom: 2rem;">Modifier l'aliment</h1>
+
+        <div class="card">
+            <div class="card-body">
+                <form method="POST" action="{{ path('app_admin_foods') }}">
+                    <input type="hidden" name="action" value="edit">
+                    <input type="hidden" name="id" value="{{ food.id }}">
+                    <input type="hidden" name="_token" value="{{ csrf_token('edit_food') }}">
+
+                    <div class="form-group">
+                        <label class="form-label">Nom de l'aliment</label>
+                        <input name="name" type="text" class="form-control" value="{{ food.name }}" placeholder="Ex: Pomme, Riz, Amande..." required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Calories (pour 100g)</label>
+                        <input name="calories" type="number" step="0.01" class="form-control" value="{{ food.calories }}" placeholder="Ex: 52" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Protéines (g)</label>
+                        <input name="protein" type="number" step="0.01" class="form-control" value="{{ food.protein }}" placeholder="Ex: 0.3" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Glucides (g)</label>
+                        <input name="carbs" type="number" step="0.01" class="form-control" value="{{ food.carbs }}" placeholder="Ex: 14" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Lipides (g)</label>
+                        <input name="fat" type="number" step="0.01" class="form-control" value="{{ food.fat }}" placeholder="Ex: 0.2" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Fibres (g)</label>
+                        <input name="fiber" type="number" step="0.01" class="form-control" value="{{ food.fiber ?? '' }}" placeholder="Ex: 2.4">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Unité</label>
+                        <select name="unit" class="form-control">
+                            <option value="">Aucune</option>
+                            <option value="g" {% if food.unit == 'g' %}selected{% endif %}>Grammes (g)</option>
+                            <option value="ml" {% if food.unit == 'ml' %}selected{% endif %}>Millilitres (ml)</option>
+                            <option value="piece" {% if food.unit == 'piece' %}selected{% endif %}>Pièce</option>
+                            <option value="portion" {% if food.unit == 'portion' %}selected{% endif %}>Portion</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Quantité par unité (optionnel)</label>
+                        <input name="quantity" type="number" step="0.01" class="form-control" value="{{ food.quantity ?? '' }}" placeholder="Ex: 100">
+                        <div class="form-help">Utilisé pour les aliments qui ne sont pas basés sur 100g (ex: 1 pièce = 30g)</div>
+                    </div>
+
+                    <div style="display: flex; gap: 1rem;">
+                        <button type="submit" class="btn btn-primary">Enregistrer les modifications</button>
+                        <a href="{{ path('app_admin_foods') }}" class="btn btn-outline">Annuler</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+

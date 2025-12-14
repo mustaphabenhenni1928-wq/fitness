@@ -1,0 +1,86 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}À propos - Health & Fitness{% endblock %}
+
+{% block body %}
+    <div class="container" style="max-width: 900px; margin: 3rem auto;">
+        <div style="text-align: center; margin-bottom: 4rem;">
+            <h1 style="font-size: 3rem; font-weight: 700; margin-bottom: 1rem;">À propos de Health & Fitness</h1>
+            <p style="font-size: 1.25rem; color: var(--gray);">
+                Votre partenaire pour une vie plus saine et active
+            </p>
+        </div>
+
+        <div class="card" style="margin-bottom: 2rem;">
+            <div class="card-body">
+                <h2 style="font-size: 2rem; margin-bottom: 1.5rem;">Notre mission</h2>
+                <p style="font-size: 1.1rem; line-height: 1.8; color: var(--gray);">
+                    Health & Fitness a été créé pour vous accompagner dans votre parcours vers une meilleure santé et une meilleure condition physique. 
+                    Nous croyons que chacun mérite d'avoir accès à des outils modernes et efficaces pour suivre ses progrès, planifier ses entraînements 
+                    et gérer sa nutrition de manière simple et intuitive.
+                </p>
+            </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; margin-bottom: 3rem;">
+            <div class="card">
+                <div class="card-body" style="text-align: center;">
+                    <div style="font-size: 3rem; margin-bottom: 1rem;">💪</div>
+                    <h3 style="font-size: 1.5rem; margin-bottom: 1rem;">Entraînements personnalisés</h3>
+                    <p style="color: var(--gray);">
+                        Créez vos propres programmes d'entraînement adaptés à vos objectifs et votre niveau.
+                    </p>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-body" style="text-align: center;">
+                    <div style="font-size: 3rem; margin-bottom: 1rem;">🍎</div>
+                    <h3 style="font-size: 1.5rem; margin-bottom: 1rem;">Suivi nutritionnel</h3>
+                    <p style="color: var(--gray);">
+                        Enregistrez vos repas et suivez vos apports en calories et macronutriments.
+                    </p>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-body" style="text-align: center;">
+                    <div style="font-size: 3rem; margin-bottom: 1rem;">📊</div>
+                    <h3 style="font-size: 1.5rem; margin-bottom: 1rem;">Statistiques détaillées</h3>
+                    <p style="color: var(--gray);">
+                        Visualisez votre progression avec des graphiques et statistiques complètes.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-body">
+                <h2 style="font-size: 2rem; margin-bottom: 1.5rem;">Notre équipe</h2>
+                <p style="font-size: 1.1rem; line-height: 1.8; color: var(--gray); margin-bottom: 2rem;">
+                    Notre équipe est composée de développeurs passionnés, de coachs sportifs certifiés et de nutritionnistes 
+                    qui travaillent ensemble pour vous offrir la meilleure expérience possible.
+                </p>
+                <p style="font-size: 1.1rem; line-height: 1.8; color: var(--gray);">
+                    Nous sommes constamment à l'écoute de vos retours pour améliorer la plateforme et ajouter de nouvelles fonctionnalités 
+                    qui répondent à vos besoins.
+                </p>
+            </div>
+        </div>
+
+        <div class="card" style="margin-top: 3rem; background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)); color: white;">
+            <div class="card-body" style="text-align: center;">
+                <h3 style="margin-bottom: 1rem;">Rejoignez-nous dès aujourd'hui !</h3>
+                <p style="margin-bottom: 1.5rem; opacity: 0.9;">
+                    Commencez votre parcours vers une vie plus saine et active
+                </p>
+                {% if not app.user %}
+                    <a href="{{ path('app_register') }}" class="btn" style="background: white; color: var(--primary-color);">Créer un compte gratuit</a>
+                {% else %}
+                    <a href="{{ path('app_dashboard') }}" class="btn" style="background: white; color: var(--primary-color);">Accéder au tableau de bord</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+

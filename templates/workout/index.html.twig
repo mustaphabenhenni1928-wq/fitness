@@ -1,0 +1,107 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Entraînements - Health & Fitness{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+            <div>
+                <h1 style="font-size: 2.5rem; font-weight: 700; margin-bottom: 0.5rem;">Entraînements</h1>
+                <p style="color: var(--gray);">Créez et suivez vos programmes d'entraînement</p>
+            </div>
+            <a href="{{ path('app_workout_create') }}" class="btn btn-primary">+ Créer un programme</a>
+        </div>
+
+        <div class="filters">
+            <h3 style="margin-bottom: 1rem;">Filtres</h3>
+            <div class="filters-grid">
+                <div class="form-group" style="margin-bottom: 0;">
+                    <label class="form-label">Type d'exercice</label>
+                    <select class="form-control">
+                        <option>Tous</option>
+                        <option>Cardio</option>
+                        <option>Musculation</option>
+                        <option>Yoga</option>
+                        <option>Pilates</option>
+                    </select>
+                </div>
+                <div class="form-group" style="margin-bottom: 0;">
+                    <label class="form-label">Niveau</label>
+                    <select class="form-control">
+                        <option>Tous</option>
+                        <option>Débutant</option>
+                        <option>Intermédiaire</option>
+                        <option>Avancé</option>
+                    </select>
+                </div>
+                <div class="form-group" style="margin-bottom: 0;">
+                    <label class="form-label">Durée</label>
+                    <select class="form-control">
+                        <option>Tous</option>
+                        <option>&lt; 30 min</option>
+                        <option>30-60 min</option>
+                        <option>&gt; 60 min</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        {% if workouts|length > 0 %}
+            <h2 style="margin-bottom: 1.5rem; font-size: 1.5rem;">Mes programmes</h2>
+            <div class="exercise-grid" style="margin-bottom: 3rem;">
+                {% for workout in workouts %}
+                    <div class="exercise-card">
+                        <div class="exercise-image">💪</div>
+                        <div class="exercise-content">
+                            <h3 class="exercise-title">{{ workout.name }}</h3>
+                            <p>{{ workout.description ?? 'Programme personnalisé' }}</p>
+                            <div class="exercise-meta">
+                                <span>⏱️ {{ workout.duration ?? 'N/A' }} min</span>
+                                <span>🔥 {{ workout.calories ?? 0 }} kcal</span>
+                                <span>📅 {{ workout.createdAt|date('d/m/Y') }}</span>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <h2 style="margin-bottom: 1.5rem; font-size: 1.5rem;">Catalogue d'exercices</h2>
+        <div class="exercise-grid">
+            {% if exercises|length > 0 %}
+                {% for exercise in exercises %}
+                    <div class="exercise-card">
+                        <div class="exercise-image">
+                            {# {% if exercise.type == 'Cardio' %}🏃
+                            {% elseif exercise.type == 'Yoga' %}🧘
+                            {% elseif exercise.type == 'Musculation' %}🏋️
+                            {% else %}💪
+                            {% endif %} #}
+                            {% if exercise.image %}
+                                <img src="{{ asset('images/' ~ exercise.image) }}" alt="{{ exercise.name }}" style="width: 250px; height: 150px;">
+                            {% elseif exercise.type == 'Yoga' %}🧘
+                            {% elseif exercise.type == 'Musculation' %}🏋️
+                            {% else %}💪
+                            {% endif %} 
+                        </div>
+                        <div class="exercise-content">
+                            <h3 class="exercise-title">{{ exercise.name }}</h3>
+                            <p>{{ exercise.description ?? 'Exercice ' ~ exercise.type }}</p>
+                            <div class="exercise-meta">
+                                <span>⏱️ {{ exercise.duration ?? 'N/A' }} min</span>
+                                <span>🔥 {{ exercise.calories ?? 0 }} kcal</span>
+                                <span>⭐ {{ exercise.level }}</span>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p style="grid-column: 1 / -1; text-align: center; color: var(--gray); padding: 2rem;">
+                    Aucun exercice disponible. L'administrateur doit ajouter des exercices.
+                </p>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
+
+

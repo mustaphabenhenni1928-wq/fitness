@@ -1,0 +1,73 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Accueil - Health & Fitness{% endblock %}
+
+{% block body %}
+    <section class="hero">
+        <div class="container">
+            <h1 class="hero-title">Transformez votre santé et votre forme physique</h1>
+            <p class="hero-subtitle">
+                Suivez vos entraînements, surveillez votre nutrition et atteignez vos objectifs avec notre plateforme complète
+            </p>
+            <div class="hero-cta">
+                {% if app.user %}
+                    <a href="{{ path('app_dashboard') }}" class="btn btn-primary">Accéder au tableau de bord</a>
+                {% else %}
+                    <a href="{{ path('app_register') }}" class="btn btn-primary">Commencer gratuitement</a>
+                    <a href="{{ path('app_login') }}" class="btn btn-outline" style="background: rgba(255,255,255,0.2); color: white; border-color: white;">Se connecter</a>
+                {% endif %}
+            </div>
+        </div>
+    </section>
+
+    <div class="container">
+        <section class="features">
+            <h2 class="text-center mb-4" style="font-size: 2.5rem; font-weight: 700; margin-bottom: 3rem;">Nos fonctionnalités</h2>
+            <div class="exercise-grid">
+                <div class="card">
+                    <div class="exercise-image">🏋️</div>
+                    <div class="exercise-content">
+                        <h3 class="exercise-title">Gestion des entraînements</h3>
+                        <p>Créez et suivez vos programmes d'entraînement personnalisés. Accédez à un catalogue complet d'exercices avec instructions détaillées.</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="exercise-image">🥗</div>
+                    <div class="exercise-content">
+                        <h3 class="exercise-title">Suivi nutritionnel</h3>
+                        <p>Enregistrez vos repas, suivez vos calories et macros. Obtenez des recommandations nutritionnelles personnalisées.</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="exercise-image">📊</div>
+                    <div class="exercise-content">
+                        <h3 class="exercise-title">Statistiques détaillées</h3>
+                        <p>Visualisez votre progression avec des graphiques et statistiques. Suivez votre poids, IMC, calories dépensées et bien plus.</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="exercise-image">👨‍🏫</div>
+                    <div class="exercise-content">
+                        <h3 class="exercise-title">Coaching personnalisé</h3>
+                        <p>Connectez-vous avec des coachs certifiés pour recevoir des programmes d'entraînement adaptés à vos objectifs.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="cta-section" style="margin: 4rem 0; text-align: center; padding: 3rem; background: var(--white); border-radius: var(--border-radius-lg); box-shadow: var(--shadow);">
+            <h2 style="font-size: 2rem; margin-bottom: 1rem;">Prêt à commencer votre transformation ?</h2>
+            <p style="font-size: 1.125rem; color: var(--gray); margin-bottom: 2rem;">
+                Rejoignez des milliers de personnes qui ont déjà transformé leur vie
+            </p>
+            {% if not app.user %}
+                <a href="{{ path('app_register') }}" class="btn btn-primary" style="font-size: 1.125rem; padding: 1rem 2rem;">Créer un compte gratuit</a>
+            {% endif %}
+        </section>
+    </div>
+{% endblock %}
+
+
+
+
+

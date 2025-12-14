@@ -1,0 +1,63 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Créer un programme - Health & Fitness{% endblock %}
+
+{% block body %}
+    <div class="container" style="max-width: 800px;">
+        <h1 style="font-size: 2.5rem; font-weight: 700; margin-bottom: 2rem;">Créer un programme d'entraînement</h1>
+
+        <div class="card">
+            <div class="card-body">
+                <form method="POST">
+                    <div class="form-group">
+                        <label class="form-label">Nom du programme</label>
+                        <input name="name" type="text" class="form-control" placeholder="Ex: Full Body Workout" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Description</label>
+                        <textarea name="description" class="form-control" rows="4" placeholder="Décrivez votre programme..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Type d'entraînement</label>
+                        <select name="type" class="form-control">
+                            <option value="Cardio">Cardio</option>
+                            <option value="Musculation">Musculation</option>
+                            <option value="Yoga">Yoga</option>
+                            <option value="Pilates">Pilates</option>
+                            <option value="HIIT">HIIT</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Niveau</label>
+                        <select name="level" class="form-control">
+                            <option>Débutant</option>
+                            <option>Intermédiaire</option>
+                            <option>Avancé</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Sélectionner les exercices</label>
+                        <div style="max-height: 200px; overflow-y: auto; border: 1px solid var(--gray-light); border-radius: var(--border-radius); padding: 1rem;">
+                            {% for exercise in exercises %}
+                                <label style="display: flex; align-items: center; gap: 0.5rem; padding: 0.5rem; cursor: pointer;">
+                                    <input type="checkbox" name="exercises[]" value="{{ exercise.id }}" style="width: auto;">
+                                    <span>{{ exercise.name }} ({{ exercise.duration }}min - {{ exercise.calories }}kcal)</span>
+                                </label>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Durée estimée (minutes)</label>
+                        <input name="duration" type="number" name="duration" class="form-control" min="10" max="180" value="45">
+                    </div>
+                    <div style="display: flex; gap: 1rem;">
+                        <button type="submit" class="btn btn-primary">Créer le programme</button>
+                        <a href="{{ path('app_workouts') }}" class="btn btn-outline">Annuler</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+

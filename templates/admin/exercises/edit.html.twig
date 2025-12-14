@@ -1,0 +1,86 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier un exercice - Health & Fitness{% endblock %}
+
+{% block body %}
+    <div class="container" style="max-width: 800px;">
+        <h1 style="font-size: 2.5rem; font-weight: 700; margin-bottom: 2rem;">Modifier l'exercice</h1>
+
+        <div class="card">
+            <div class="card-body">
+                <form method="POST" action="{{ path('app_admin_exercises') }}" enctype="multipart/form-data">
+                    <input type="hidden" name="_token" value="{{ csrf_token('edit_exercise') }}">
+                    <input type="hidden" name="action" value="edit">
+                    <input type="hidden" name="id" value="{{ exercise.id }}">
+
+                    <div class="form-group">
+                        <label class="form-label">Nom de l'exercice</label>
+                        <input name="name" type="text" class="form-control" value="{{ exercise.name }}" placeholder="Ex: Pompes, Squats..." required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Description</label>
+                        <textarea name="description" class="form-control" rows="4" placeholder="Décrivez l'exercice...">{{ exercise.description }}</textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Type d'exercice</label>
+                        <select name="type" class="form-control" required>
+                            <option value="">Sélectionnez...</option>
+                            <option value="Cardio" {% if exercise.type == 'Cardio' %}selected{% endif %}>Cardio</option>
+                            <option value="Musculation" {% if exercise.type == 'Musculation' %}selected{% endif %}>Musculation</option>
+                            <option value="Flexibilité" {% if exercise.type == 'Flexibilité' %}selected{% endif %}>Flexibilité</option>
+                            <option value="HIIT" {% if exercise.type == 'HIIT' %}selected{% endif %}>HIIT</option>
+                            <option value="Yoga" {% if exercise.type == 'Yoga' %}selected{% endif %}>Yoga</option>
+                            <option value="Pilates" {% if exercise.type == 'Pilates' %}selected{% endif %}>Pilates</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Niveau</label>
+                        <select name="level" class="form-control" required>
+                            <option value="">Sélectionnez...</option>
+                            <option value="Débutant" {% if exercise.level == 'Débutant' %}selected{% endif %}>Débutant</option>
+                            <option value="Intermédiaire" {% if exercise.level == 'Intermédiaire' %}selected{% endif %}>Intermédiaire</option>
+                            <option value="Avancé" {% if exercise.level == 'Avancé' %}selected{% endif %}>Avancé</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Durée estimée (minutes)</label>
+                        <input name="duration" type="number" class="form-control" min="1" value="{{ exercise.duration }}" placeholder="Ex: 20">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Calories brûlées (estimation)</label>
+                        <input name="calories" type="number" class="form-control" value="{{ exercise.calories }}" placeholder="Ex: 120">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Image actuelle</label>
+                        {% if exercise.image %}
+                            <div style="margin-bottom: 1rem;">
+                                <img src="{{ asset('images/' ~ exercise.image) }}" alt="{{ exercise.name }}" style="width: 200px; height: auto; border-radius: 8px;">
+                                <p style="color: var(--gray); font-size: 0.875rem; margin-top: 0.5rem;">Image actuelle</p>
+                            </div>
+                        {% else %}
+                            <p style="color: var(--gray);">Aucune image</p>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Nouvelle image (optionnel)</label>
+                        <input name="image" type="file" class="form-control" accept="image/*">
+                        <div class="form-help">Laisser vide pour conserver l'image actuelle. Formats acceptés : JPG, PNG, WebP</div>
+                    </div>
+
+                    <div style="display: flex; gap: 1rem;">
+                        <button type="submit" class="btn btn-primary">Enregistrer les modifications</button>
+                        <a href="{{ path('app_admin_exercises') }}" class="btn btn-outline">Annuler</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+

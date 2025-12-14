@@ -1,0 +1,61 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Gestion des aliments - Administration{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+            <h1 style="font-size: 2.5rem; font-weight: 700;">Gestion des aliments</h1>
+            <a href="{{ path('app_food_add') }}" class="btn btn-primary">+ Ajouter un aliment</a>
+        </div>
+        
+        <div class="card">
+            <div class="card-body">
+                <div class="table-container">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nom</th>
+                                <th>Calories (100g)</th>
+                                <th>Protéines</th>
+                                <th>Glucides</th>
+                                <th>Lipides</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for food in foods %}
+                                <tr>
+                                    <td>{{ food.id }}</td>
+                                    <td>{{ food.name }}</td>
+                                    <td>{{ food.calories }}</td>
+                                    <td>{{ food.protein }}g</td>
+                                    <td>{{ food.carbs }}g</td>
+                                    <td>{{ food.fat }}g</td>
+                                    <td>
+                                        <div style="display: flex; gap: 0.5rem;">
+                                            <a href="{{ path('app_admin_food_edit', {id: food.id}) }}" class="btn btn-outline" style="padding: 0.25rem 0.75rem; font-size: 0.875rem;">Modifier</a>
+                                            <form method="POST" action="{{ path('app_admin_foods') }}" style="display: inline;" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cet aliment ?');">
+                                                <input type="hidden" name="action" value="delete">
+                                                <input type="hidden" name="id" value="{{ food.id }}">
+                                                <input type="hidden" name="_token" value="{{ csrf_token('delete_food') }}">
+                                                <button type="submit" class="btn btn-outline" style="padding: 0.25rem 0.75rem; font-size: 0.875rem; color: var(--error-color);">Supprimer</button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
+                            {% else %}
+                                <tr>
+                                    <td colspan="7" style="text-align: center; color: var(--gray);">Aucun aliment</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+

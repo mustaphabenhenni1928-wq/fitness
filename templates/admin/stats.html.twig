@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Statistiques - Administration{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1 style="font-size: 2.5rem; font-weight: 700; margin-bottom: 2rem;">Statistiques globales</h1>
+
+        <div class="dashboard-grid" style="margin-bottom: 3rem;">
+            <div class="stat-card">
+                <div class="stat-label">Utilisateurs totaux</div>
+                <div class="stat-value">{{ stats.totalUsers }}</div>
+                <div class="stat-label">Inscrits</div>
+            </div>
+            <div class="stat-card secondary">
+                <div class="stat-label">Nouveaux utilisateurs</div>
+                <div class="stat-value">{{ stats.newUsersThisMonth }}</div>
+                <div class="stat-label">Ce mois</div>
+            </div>
+            <div class="stat-card warning">
+                <div class="stat-label">Réservations</div>
+                <div class="stat-value">{{ stats.bookingsThisMonth }}</div>
+                <div class="stat-label">Ce mois</div>
+            </div>
+            <div class="stat-card" style="background: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%);">
+                <div class="stat-label">Commandes</div>
+                <div class="stat-value">{{ stats.ordersThisMonth }}</div>
+                <div class="stat-label">Ce mois</div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <h2 class="card-title">Évolution des inscriptions</h2>
+            </div>
+            <div class="card-body">
+                <div style="height: 300px; display: flex; align-items: center; justify-content: center; background: var(--gray-lighter); border-radius: var(--border-radius);">
+                    <p style="color: var(--gray);">Graphique d'évolution (à intégrer avec Chart.js)</p>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+

@@ -1,0 +1,65 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Gestion des exercices - Administration{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+            <h1 style="font-size: 2.5rem; font-weight: 700;">Gestion des exercices</h1>
+            <a href="{{ path('app_exercise_add') }}" class="btn btn-primary">+ Ajouter un exercice</a>
+        </div>
+        
+        <div class="card">
+            <div class="card-body">
+                <div class="table-container">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nom</th>
+                                <th>Type</th>
+                                <th>Niveau</th>
+                                <th>image</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for exercise in exercises %}
+                                <tr>
+                                    <td>{{ exercise.id }}</td>
+                                    <td>{{ exercise.name }}</td>
+                                    <td>{{ exercise.type }}</td>
+                                    <td>{{ exercise.level }}</td>
+                                    <td>
+                                        {% if exercise.image %}
+                                            <img src="{{ asset('images/' ~ exercise.image) }}" alt="{{ exercise.name }}" style="width: 90px; height: auto;">
+                                        {% else %}
+                                            <span class="text-muted">Aucune image</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        <div style="display: flex; gap: 0.5rem;">
+                                            <a href="{{ path('app_admin_exercise_edit', {id: exercise.id}) }}" class="btn btn-outline" style="padding: 0.25rem 0.75rem; font-size: 0.875rem;">Modifier</a>
+                                            <form method="POST" action="{{ path('app_admin_exercises') }}" style="display: inline;" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cet exercice ?');">
+                                                <input type="hidden" name="action" value="delete">
+                                                <input type="hidden" name="id" value="{{ exercise.id }}">
+                                                <input type="hidden" name="_token" value="{{ csrf_token('delete_exercise') }}">
+                                                <button type="submit" class="btn btn-outline" style="padding: 0.25rem 0.75rem; font-size: 0.875rem; color: var(--error-color);">Supprimer</button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
+                            {% else %}
+                                <tr>
+                                    <td colspan="5" style="text-align: center; color: var(--gray);">Aucun exercice</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+

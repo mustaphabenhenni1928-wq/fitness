@@ -1,0 +1,72 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajouter un repas - Health & Fitness{% endblock %}
+
+{% block body %}
+    <div class="container" style="max-width: 800px;">
+        <h1 style="font-size: 2.5rem; font-weight: 700; margin-bottom: 2rem;">Ajouter un repas</h1>
+
+        <div class="card">
+            <div class="card-body">
+                    <form method="POST" enctype="multipart/form-data">
+    <div class="form-group">
+        <label class="form-label">Nom de l'exercice</label>
+        <input name="name" type="text" class="form-control" placeholder="Ex: Pompes, Squats..." required>
+    </div>
+
+    <div class="form-group">
+        <label class="form-label">Description</label>
+        <textarea name="description" class="form-control" rows="4" placeholder="Décrivez l'exercice..."></textarea>
+    </div>
+
+    <div class="form-group">
+        <label class="form-label">Type d'exercice</label>
+        <select name="type" class="form-control" required>
+            <option value="">Sélectionnez...</option>
+            <option value="Cardio">Cardio</option>
+            <option value="Musculation">Musculation</option>
+            <option value="Flexibilité">Flexibilité</option>
+            <option value="HIIT">HIIT</option>
+            <option value="Yoga">Yoga</option>
+            <option value="Pilates">Pilates</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label class="form-label">Niveau</label>
+        <select name="level" class="form-control" required>
+            <option value="">Sélectionnez...</option>
+            <option value="Débutant">Débutant</option>
+            <option value="Intermédiaire">Intermédiaire</option>
+            <option value="Avancé">Avancé</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label class="form-label">Durée estimée (minutes)</label>
+        <input name="duration" type="number" class="form-control" min="1" placeholder="Ex: 20">
+    </div>
+
+    <div class="form-group">
+        <label class="form-label">Calories brûlées (estimation)</label>
+        <input name="calories" type="number" class="form-control" placeholder="Ex: 120">
+    </div>
+
+    <div class="form-group">
+        <label class="form-label">Image de l'exercice</label>
+        <input name="image" type="file" class="form-control" accept="image/*">
+        <div class="form-help">Formats acceptés : JPG, PNG, WebP</div>
+    </div>
+
+    <div style="display: flex; gap: 1rem;">
+        <button type="submit" class="btn btn-primary">Ajouter l'exercice</button>
+        <a href="{{ path('app_admin_exercises') }}" class="btn btn-outline">Annuler</a>
+    </div>
+</form>
+
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+

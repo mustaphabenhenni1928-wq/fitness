@@ -1,0 +1,63 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajouter un repas - Health & Fitness{% endblock %}
+
+{% block body %}
+    <div class="container" style="max-width: 800px;">
+        <h1 style="font-size: 2.5rem; font-weight: 700; margin-bottom: 2rem;">Ajouter un repas</h1>
+
+        <div class="card">
+            <div class="card-body">
+                <form method="POST">
+    <div class="form-group">
+        <label class="form-label">Type de repas</label>
+        <select id="meal_type" name="meal_type" class="form-control" required>
+            <option value="">Sélectionnez...</option>
+            <option value="Petit-déjeuner">Petit-déjeuner</option>
+            <option value="Déjeuner">Déjeuner</option>
+            <option value="Collation">Collation</option>
+            <option value="Dîner">Dîner</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label class="form-label">Date</label>
+        <input type="date" class="form-control"
+               name="date"
+               value="{{ 'now'|date('Y-m-d') }}" required>
+    </div>
+
+    <div class="form-group">
+        <label class="form-label">Heure</label>
+        <input type="time" class="form-control"
+               name="time"
+               value="{{ 'now'|date('H:i') }}" required>
+    </div>
+
+    <div class="form-group">
+        <label class="form-label">Sélectionner un aliment</label>
+        <select name="food_id" class="form-control" required>
+            <option value="">-- Sélectionnez un aliment --</option>
+            {% for food in foods %}
+                <option value="{{ food.id }}">
+                    {{ food.name }} - {{ food.calories }} kcal/100g
+                    (P: {{ food.protein }}g, C: {{ food.carbs }}g, F: {{ food.fat }}g)
+                </option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label class="form-label">Quantité (g)</label>
+        <input type="number" name="quantity" class="form-control" min="1" value="100">
+    </div>
+
+    <button type="submit" class="btn btn-primary">Ajouter le repas</button>
+</form>
+
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+

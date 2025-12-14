@@ -1,0 +1,122 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Tableau de bord - Health & Fitness{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1 style="font-size: 2.5rem; font-weight: 700; margin-bottom: 2rem;">Tableau de bord</h1>
+        <p style="font-size: 1.125rem; color: var(--gray); margin-bottom: 3rem;">Bienvenue, {{ app.user.email }} ! Voici un aperçu de votre activité.</p>
+
+        <div class="dashboard-grid">
+            <div class="stat-card">
+                <div class="stat-label">Poids actuel</div>
+                <div class="stat-value">{{ user.weight ?? 'N/A' }} {% if user.weight %}kg{% endif %}</div>
+                <div class="stat-label">{% if user.goal %}Objectif: {{ user.goal }}{% else %}Définir un objectif{% endif %}</div>
+            </div>
+            <div class="stat-card secondary">
+                <div class="stat-label">IMC</div>
+                <div class="stat-value">
+                    {% if user.weight and user.height %}
+                        {{ ((user.weight / ((user.height / 100) * (user.height / 100)))|round(1)) }}
+                    {% else %}
+                        N/A
+                    {% endif %}
+                </div>
+                <div class="stat-label">{% if user.weight and user.height %}Calculé{% else %}Compléter profil{% endif %}</div>
+            </div>
+            <div class="stat-card warning">
+                <div class="stat-label">Calories dépensées (aujourd'hui)</div>
+                <div class="stat-value">{{ caloriesBurned }}</div>
+                <div class="stat-label">kcal</div>
+            </div>
+            <div class="stat-card" style="background: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%);">
+                <div class="stat-label">Séances cette semaine</div>
+                <div class="stat-value">{{ workoutsThisWeek }}</div>
+                <div class="stat-label">séances</div>
+            </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 2rem; margin-top: 2rem;">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Dernières activités</h2>
+                </div>
+                <div class="card-body">
+                    {% if recentWorkouts|length > 0 or recentMeals|length > 0 %}
+                        {% for workout in recentWorkouts|slice(0, 3) %}
+                            <div style="margin-bottom: 1rem; padding-bottom: 1rem; border-bottom: 1px solid var(--gray-light);">
+                                <div style="display: flex; justify-content: space-between; align-items: center;">
+                                    <div>
+                                        <strong>🏋️ {{ workout.name }}</strong>
+                                        <p style="color: var(--gray); font-size: 0.875rem; margin-top: 0.25rem;">{{ workout.createdAt|date('d/m/Y à H:i') }}</p>
+                                    </div>
+                                    <span style="color: var(--success-color); font-weight: 600;">{{ workout.calories ?? 0 }} kcal</span>
+                                </div>
+                            </div>
+                        {% endfor %}
+                        {% for meal in recentMeals|slice(0, 2) %}
+                            {% if meal.food %}
+                            <div style="margin-bottom: 1rem; padding-bottom: 1rem; border-bottom: 1px solid var(--gray-light);">
+                                <div style="display: flex; justify-content: space-between; align-items: center;">
+                                    <div>
+                                        <strong>🥗 {{ meal.mealType }} - {{ meal.food.name }}</strong>
+                                        <p style="color: var(--gray); font-size: 0.875rem; margin-top: 0.25rem;">{{ meal.date|date('d/m/Y') }} à {{ meal.time|date('H:i') }}</p>
+                                    </div>
+                                    <span style="color: var(--primary-color); font-weight: 600;">{{ (meal.food.calories * meal.quantity / 100)|round }} kcal</span>
+                                </div>
+                            </div>
+                            {% endif %}
+                        {% endfor %}
+                    {% else %}
+                        <p style="color: var(--gray); text-align: center; padding: 2rem;">Aucune activité récente</p>
+                    {% endif %}
+                </div>
+                <div class="card-footer">
+                    <a href="{{ path('app_workouts') }}" class="btn btn-outline" style="width: 100%;">Voir toutes les activités</a>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Repas d'aujourd'hui</h2>
+                </div>
+                <div class="card-body">
+                    <div class="macro-summary">
+                        <div class="macro-item">
+                            <div class="macro-value">{{ caloriesConsumed }}</div>
+                            <div class="macro-label">Calories</div>
+                        </div>
+                        <div class="macro-item">
+                            <div class="macro-value">{{ protein }}g</div>
+                            <div class="macro-label">Protéines</div>
+                        </div>
+                        <div class="macro-item">
+                            <div class="macro-value">{{ carbs }}g</div>
+                            <div class="macro-label">Glucides</div>
+                        </div>
+                        <div class="macro-item">
+                            <div class="macro-value">{{ fat }}g</div>
+                            <div class="macro-label">Lipides</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <a href="{{ path('app_nutrition') }}" class="btn btn-outline" style="width: 100%;">Gérer la nutrition</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="card" style="margin-top: 2rem;">
+            <div class="card-header">
+                <h2 class="card-title">Progression cette semaine</h2>
+            </div>
+            <div class="card-body">
+                <div style="height: 200px; display: flex; align-items: center; justify-content: center; background: var(--gray-lighter); border-radius: var(--border-radius);">
+                    <p style="color: var(--gray);">Graphique de progression (à intégrer avec Chart.js ou similaire)</p>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+
